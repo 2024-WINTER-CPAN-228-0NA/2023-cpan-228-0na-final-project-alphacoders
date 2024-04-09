@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: Country Portal
+
+
+#JPA
+  jpa:
+    show-sql: true
+
+#Spring Datasource Connection Pooling configuration
+  datasource:
+    username: root
+    password: fortnite1
+    url: jdbc:mysql://localhost:3306/countries_portal?useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    tomcat:
+      validation-query: SELECT 1
+      max-active: 5
+      max-idle: 3
+      max-wait: 8000
+
+#Flyway
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    url: jdbc:mysql://localhost:3306?useSSL=false
+    schemas: countries_portal
+    user: root
+    password: fortnite1

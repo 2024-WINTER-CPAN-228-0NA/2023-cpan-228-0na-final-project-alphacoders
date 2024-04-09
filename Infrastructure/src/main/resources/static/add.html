@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Country</title>
+    <style>
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"] {
+            padding: 5px;
+            width: 300px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h2>Add Country</h2>
+<form id="addCountryForm">
+    <label for="countryName">Country Name:</label>
+    <input type="text" id="countryName" name="countryName" required>
+    <label for="population">Population:</label>
+    <input type="text" id="population" name="population" required>
+    <button type="submit">Add Country</button>
+</form>
+
+<script>
+    document.getElementById("addCountryForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var countryName = document.getElementById("countryName").value;
+        var population = document.getElementById("population").value;
+
+        var data = {
+            name: countryName,
+            population: population
+        };
+
+        fetch('/countries', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add country');
+                }
+                alert('Country added successfully');
+                window.location.href = 'home.html';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to add country');
+            });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Welcome to Country Application</h2>
+    <button onclick="redirectToSearch()">Search Countries</button>
+    <button onclick="redirectToAdd()">Add Country</button>
+    <button onclick="redirectToView()">View Countries</button>
+    <button onclick="redirectToEdit()">Edit Country</button>
+    <button onclick="redirectToFilter()">Filter Country</button>
+    <button onclick="redirectToRemove()">Remove Country</button>
+</div>
+
+<script>
+    function redirectToSearch() {
+        window.location.href = '/search.html';
+    }
+
+    function redirectToAdd() {
+        window.location.href = '/add.html';
+    }
+
+    function redirectToView() {
+        window.location.href = '/view.html';
+    }
+
+    function redirectToEdit() {
+        window.location.href = '/edit.html';
+    }
+
+    function redirectToFilter() {
+        window.location.href = '/filter.html';
+    }
+
+    function redirectToRemove() {
+        window.location.href = '/filter.remove';
+    }
+</script>
+</body>
+</html>

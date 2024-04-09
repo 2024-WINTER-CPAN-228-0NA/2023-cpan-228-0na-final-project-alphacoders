@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Search</title>
+    <style>
+        input[type="text"] {
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<h2>Country Search by ID</h2>
+<input type="text" id="countryIdInput" placeholder="Enter Country ID">
+<button onclick="searchCountry()">Search</button>
+<div id="result"></div>
+
+<script>
+    function searchCountry() {
+        var countryId = document.getElementById('countryIdInput').value;
+        if (!countryId) {
+            alert('Please enter a country ID.');
+            return;
+        }
+
+        var endpoint = '/countries/' + countryId;
+        fetch(endpoint)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Display the country details
+                var resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = `
+                        <h3>Country Details</h3>
+                        <p>ID: ${data.countryId}</p>
+                        <p>Name: ${data.name}</p>
+                        <p>Population: ${data.population}</p>
+                    `;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+                var resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = '<p>Country not found.</p>';
+            });
+    }
+</script>
+</body>
+</html>

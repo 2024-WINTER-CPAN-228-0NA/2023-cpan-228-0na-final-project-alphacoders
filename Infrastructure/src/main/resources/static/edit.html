@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Country Population</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        .country-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .country-card h3 {
+            margin-top: 0;
+        }
+        .country-card p {
+            margin: 5px 0;
+        }
+        input[type="number"] {
+            width: 80px;
+        }
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h2>Edit Country Population</h2>
+
+<div id="countryContainer"></div>
+
+<script>
+    // Function to fetch all countries from the backend and populate the list
+    function fetchAndDisplayCountries() {
+        fetch('/countries')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch countries');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Populate the list with country details
+                var countryContainer = document.getElementById('countryContainer');
+                data.forEach(country => {
+                    var countryCard = document.createElement('div');
+                    countryCard.classList.add('country-card');
+                    countryCard.innerHTML = `
+                                <h3>${country.name}</h3>
+                                <p>Population: <input type="number" id="population_${country.id}" value="${country.population}" min="0"></p>
+                                <button onclick="updatePopulation(${country.id})">Update Population</button>
+                            `;
+                    countryContainer.appendChild(countryCard);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to fetch countries');
+            });
+    }
+
+    // Function to update population of a country
+    function updatePopulation(countryId) {
+        var populationInput = document.getElementById(`population_${countryId}`);
+        var newPopulation = populationInput.value;
+
+        fetch(`/countries/${countryId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ population: newPopulation })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update population');
+                }
+                alert('Population updated successfully');
+                // Refresh the page to reflect the updated population
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to update population');
+            });
+    }
+
+    // Call the function to fetch and display countries when the page loads
+    fetchAndDisplayCountries();
+</script>
+</body>
+</html>
